@@ -55,61 +55,62 @@ function Login() {
       <main className="container p-4 mt-5">
         <div className="row flex-column align-items-center">
           <div className="col col-lg-6">
-            <section className="row row-cols-1 mb-5">
-              <div className="col">
-                <h1 className="h2">Login</h1>
-                {currentUser && (
-                  <p className="font-bold">Hello {currentUser.email}</p>
-                )}
-                <hr />
-              </div>
-              <div className="col">
-                <h2 className="h5">Login with Google</h2>
-                <hr />
-              </div>
-              <div className="col">
-                <Button onClick={handleLoginWithGoogleClick}>
-                  Login With Google
-                </Button>
-              </div>
-            </section>
-
-            <section className="row row-cols-1 mb-3">
-              <div className="col">
-                <h2 className="h5 mb-3">Login with email and password</h2>
-              </div>
+          <section className="row row-cols-1 mb-3">
               <div className="col">
                 <form action="#" onSubmit={handleSubmit}>
                   <div className="mb-3">
-                    <label className="form-label" htmlFor="email">
-                      Email
-                    </label>
                     <input
                       className="form-control"
                       id="email"
                       type="email"
+                      placeholder="Email address"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label" htmlFor="password">
-                      Password
-                    </label>
                     <input
                       className="form-control"
                       id="password"
                       type="password"
+                      placeholder="Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
-                  <Button type="submit" disabled={loading}>
-                    {loading ? "Logging in..." : "Login"}
-                  </Button>
+                  <div className="row mb-4">
+                    <div className="col d-flex justify-content-center">
+                      <div className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value=""
+                        />
+                        <label className="form-check-label" for="form2Example31"> Remember me </label>
+                      </div>
+                    </div>
+
+                    <div className="col">
+                      <Link to="/reset-password" style={{ textDecoration: 'none' }}>Forgot your password?</Link>
+                    </div>
+                  </div>
+                  <div className="col">
+                    <Button type="submit" disabled={loading}>
+                      {loading ? "Logging in..." : "Sign In"}
+                    </Button>
+                  </div>
                 </form>
               </div>
             </section>
+
+            <div className="text-center">
+              <p>Not a member? <Link to="/sign-up" style={{ textDecoration: 'none' }}>Resgister</Link></p>
+              <p>or sign up with:</p>
+              <Button onClick={handleLoginWithGoogleClick}>
+                  Google
+                </Button>
+            </div>
+            
             {loginError && (
               <section className="row row-cols-1 mb-3 border py-3 bg-light">
                 <div className="col">
@@ -119,14 +120,7 @@ function Login() {
                 </div>
               </section>
             )}
-            <section className="row row-cols-1 mb-5">
-              <div className="col">
-                <hr />
-              </div>
-              <div className="col">
-                <Link to="/reset-password">Forgot your password?</Link>
-              </div>
-            </section>
+           
           </div>
         </div>
       </main>

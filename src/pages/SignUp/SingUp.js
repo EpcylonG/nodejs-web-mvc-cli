@@ -58,49 +58,47 @@ function SignUp() {
           <div className="col col-lg-6">
             <section className="row row-cols-1 mb-5">
               <div className="col">
-                <h1 className="h2">Sign Up</h1>
+                {/* <h1 className="h2">Sign Up</h1>
                 {currentUser && (
                   <p className="font-bold">Hello {currentUser.email}</p>
                 )}
-                <hr />
+                <hr /> */}
               </div>
-              <div className="col">
-                <h2 className="h5">Sign Up with Google</h2>
-                <hr />
+              <div className="text-center">
+                <div className="col">
+                  <p>Sign up with:</p>
+                </div>
+                <div className="col">
+                  <Button onClick={handleSingInWithGoogleClick}>
+                    Google
+                  </Button>
+                </div>
               </div>
-              <div className="col">
-                <Button onClick={handleSingInWithGoogleClick}>
-                  Sign In With Google
-                </Button>
-              </div>
+              
             </section>
 
             <section className="row row-cols-1 mb-3">
-              <div className="col">
-                <h2 className="h5 mb-3">Sign up with email and password</h2>
+              <div className="text-center">
+                <p>or:</p>
               </div>
               <div className="col">
                 <form action="#" onSubmit={handleSubmit}>
                   <div className="mb-3">
-                    <label className="form-label" htmlFor="email">
-                      Email
-                    </label>
                     <input
                       className="form-control"
                       id="email"
                       type="email"
+                      placeholder="Email address"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label" htmlFor="password">
-                      Password
-                    </label>
                     <input
                       className="form-control"
                       id="password"
                       type="password"
+                      placeholder="Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
@@ -122,10 +120,7 @@ function SignUp() {
             )}
             <section className="row row-cols-1 mb-5">
               <div className="col">
-                <hr />
-              </div>
-              <div className="col">
-                <Link to="/reset-password">Forgot your password?</Link>
+                <Link to="/reset-password" style={{ textDecoration: 'none' }}>Forgot your password?</Link>
               </div>
             </section>
           </div>

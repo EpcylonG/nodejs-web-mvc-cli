@@ -36,19 +36,16 @@ function ResetPassword() {
               <div className="col">
                 <h1 className="h3">Reset password</h1>
                 <p>Enter your email to receive a password reset link</p>
-                <hr />
               </div>
 
               <div className="col">
                 <form action="#" onSubmit={handleSubmit}>
                   <div className="mb-3">
-                    <label className="form-label" htmlFor="email">
-                      Email
-                    </label>
                     <input
                       className="form-control"
                       id="email"
                       type="email"
+                      placeholder="Email address"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
