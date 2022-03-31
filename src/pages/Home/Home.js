@@ -20,7 +20,7 @@ async function fetchUserToken(setUserToken, setLoading, setError) {
   }
 }
 
-function Home(cartItems, handleRemove, handleChange) {
+function Home(handleRemove, handleChange) {
   const [userToken, setUserToken] = useState();
   const [users, setUsers] = useState();
   const [loading, setLoading] = useState();
@@ -34,7 +34,54 @@ function Home(cartItems, handleRemove, handleChange) {
     errorMessage: null,
   }]);
 
+  const [cartItems, setCartItems] = useState(() => "" );
+
   const currentUser = useContext(AuthContext);
+
+  function buildNewCartItem(cartItem) {
+    if (cartItem.quantity >= cartItem.unitsInStock) {
+      return cartItem;
+    }
+  
+    return {
+      id: cartItem.id,
+      title: cartItem.title,
+      img: cartItem.img,
+      price: cartItem.price,
+      unitsInStock: cartItem.unitsInStock,
+      createdAt: cartItem.createdAt,
+      updatedAt: cartItem.updatedAt,
+      quantity: cartItem.quantity + 1,
+    };
+  }
+
+  function handleAddToCart(productId) {
+    const prevCartItem = cartItems.find((item) => item.id === productId);
+    const foundProduct = products.find((product) => product.id === productId);
+
+    if (prevCartItem) {
+      const updatedCartItems = cartItems.map((item) => {
+        if (item.id !== productId) {
+          return item;
+        }
+
+        if (item.quantity >= item.unitsInStock) {
+          return item;
+        }
+
+        return {
+          ...item,
+          quantity: item.quantity + 1,
+        };
+      });
+
+      setCartItems(updatedCartItems);
+      return;
+    }
+
+    const updatedProduct = buildNewCartItem(foundProduct);
+    setCartItems((prevState) => [...prevState, updatedProduct]);
+  }
 
   useEffect(() => {
     if (userToken && !currentUser) {
@@ -76,36 +123,35 @@ function Home(cartItems, handleRemove, handleChange) {
   return (
     <>
       <Header />
-      <main className="container p-4">
-      <div className="row">
-      <div className="col col-8">
+      <main className="container d-flex">
         <div className="row">
-          <div className="col col-12">
-            <header className="jumbotron">
-              <h1 className="display-4">Shoe shop</h1>
-              <p className="lead">
-                This is the best shoe shop ever, you will never find a better
-                one.
-              </p>
-              <p className="font-weight-bold">Buy now!</p>
-            </header>
+          <div className="col col-8">
+            <div className="row">
+              <div className="col col-12">
+                <header className="jumbotron">
+                  <h1 className="display-4">Shoe shop</h1>
+                  <p className="lead">
+                    This is the best shoe shop ever, you will never find a better
+                    one.
+                  </p>
+                  <p className="font-weight-bold">Buy now!</p>
+                </header>
+              </div>
+            </div>
           </div>
-          
+          <div className="col col-12">
+            { <ProductListing 
+              products={users}
+              handleAddToCart={handleAddToCart}
+            /> }
+          </div>
         </div>
-      </div>
-      <div className="col col-12">
-      { <ProductListing 
-        products={users}
-        // handleAddToCart={handleAddToCart}
-      /> }
-      </div>
-      <Cart
-        className="col col-4"
-        cartItems={cartItems}
-        handleRemove={handleRemove}
-        handleChange={handleChange}
-      />
-    </div>
+            <Cart
+              className="col col-3"
+              cartItems={cartItems}
+              handleRemove={handleRemove}
+              handleChange={handleChange}
+              />
       </main>
     </>
   );
