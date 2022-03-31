@@ -1,7 +1,8 @@
 import React from "react";
 
-
 import Button from "../Button/Button";
+
+import "./ShoppingCartItem.scss";
 
 function buildSelectOptions(unitsInStock) {
   return Array.from({ length: unitsInStock }, (_value, index) => {

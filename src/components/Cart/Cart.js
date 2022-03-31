@@ -10,6 +10,7 @@ function getCartTotal(cart) {
 }
 
 function Cart({ cartItems, handleRemove, handleChange, ...props }) {
+
   return (
     <aside {...props}>
       <div className="row flex-column">
@@ -43,7 +44,7 @@ function Cart({ cartItems, handleRemove, handleChange, ...props }) {
               <div className="d-flex justify-content-between">
                 <h4 className="h5">Total</h4>
                 <h4>
-                  {/* <strong>{getCartTotal(cartItems)}€</strong> */}
+                  <strong>{getCartTotal(cartItems)}€</strong>
                 </h4>
               </div>
               <hr />

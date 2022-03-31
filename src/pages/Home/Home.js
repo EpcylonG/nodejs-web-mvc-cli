@@ -20,44 +20,43 @@ async function fetchUserToken(setUserToken, setLoading, setError) {
   }
 }
 
-function Home(handleRemove, handleChange) {
+function Home() {
   const [userToken, setUserToken] = useState();
   const [users, setUsers] = useState();
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
-  const [products, setProducts] = useState([{
-    page: 1,
-    paginationInfo: null,
-    products: [],
-    hasLoaded: false,
-    hasError: false,
-    errorMessage: null,
-  }]);
+  // const [products, setProducts] = useState([{
+  //   page: 1,
+  //   paginationInfo: null,
+  //   products: [],
+  //   hasLoaded: false,
+  //   hasError: false,
+  //   errorMessage: null,
+  // }]);
 
-  const [cartItems, setCartItems] = useState(() => "" );
+  const [cartItems, setCartItems] = useState(() => [] );
 
   const currentUser = useContext(AuthContext);
 
   function buildNewCartItem(cartItem) {
-    if (cartItem.quantity >= cartItem.unitsInStock) {
-      return cartItem;
-    }
+     if (cartItem.quantity >= cartItem.unitsInStock) {
+       return cartItem;
+     }
   
     return {
-      id: cartItem.id,
+      id: cartItem._id,
       title: cartItem.title,
-      img: cartItem.img,
+      img: cartItem.image,
       price: cartItem.price,
       unitsInStock: cartItem.unitsInStock,
-      createdAt: cartItem.createdAt,
-      updatedAt: cartItem.updatedAt,
       quantity: cartItem.quantity + 1,
     };
   }
 
   function handleAddToCart(productId) {
     const prevCartItem = cartItems.find((item) => item.id === productId);
-    const foundProduct = products.find((product) => product.id === productId);
+    const foundProduct = users.find((product) => product._id === productId);
+
 
     if (prevCartItem) {
       const updatedCartItems = cartItems.map((item) => {
@@ -78,9 +77,29 @@ function Home(handleRemove, handleChange) {
       setCartItems(updatedCartItems);
       return;
     }
-
     const updatedProduct = buildNewCartItem(foundProduct);
     setCartItems((prevState) => [...prevState, updatedProduct]);
+  }
+
+  function handleChange(event, productId) {
+    const updatedCartItems = cartItems.map((item) => {
+      if (item.id === productId && item.quantity <= item.unitsInStock) {
+        return {
+          ...item,
+          quantity: Number(event.target.value),
+        };
+      }
+
+      return item;
+    });
+
+    setCartItems(updatedCartItems);
+  }
+
+  function handleRemove(productId) {
+    const updatedCartItems = cartItems.filter((item) => item.id !== productId);
+
+    setCartItems(updatedCartItems);
   }
 
   useEffect(() => {
