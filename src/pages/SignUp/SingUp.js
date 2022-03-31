@@ -69,7 +69,7 @@ function SignUp() {
                   <p>Sign up with:</p>
                 </div>
                 <div className="col">
-                  <Button onClick={handleSingInWithGoogleClick}>
+                  <Button onClick={handleSingInWithGoogleClick} variant="danger">
                     Google
                   </Button>
                 </div>

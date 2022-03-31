@@ -5,6 +5,7 @@ import Header from "../../components/Header/Header";
 import AuthContext from "../../context/AuthContext";
 import { getCurrentUserToken } from "../../firebase/firebase";
 import Cart from "../../components/Cart/Cart";
+import ProductListing from "../../components/ProductListing/ProductListing"
 
 async function fetchUserToken(setUserToken, setLoading, setError) {
   setLoading(true);
@@ -24,6 +25,14 @@ function Home(cartItems, handleRemove, handleChange) {
   const [users, setUsers] = useState();
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
+  const [products, setProducts] = useState([{
+    page: 1,
+    paginationInfo: null,
+    products: [],
+    hasLoaded: false,
+    hasError: false,
+    errorMessage: null,
+  }]);
 
   const currentUser = useContext(AuthContext);
 
@@ -45,7 +54,7 @@ function Home(cartItems, handleRemove, handleChange) {
       setLoading(true);
 
       try {
-        const res = await axios.get("http://localhost:4000/users", {
+        const res = await axios.get("http://localhost:4000/", {
           headers: {
             Authorization: `Bearer ${userToken}`,
           },
@@ -59,10 +68,10 @@ function Home(cartItems, handleRemove, handleChange) {
       }
     }
 
+    getUsers(userToken, setUsers, setLoading, setError);
     if (userToken && !users) {
-      getUsers(userToken, setUsers, setLoading, setError);
     }
-  }, [users, userToken]);
+  }, []);
 
   return (
     <>
@@ -84,7 +93,12 @@ function Home(cartItems, handleRemove, handleChange) {
           
         </div>
       </div>
-
+      <div className="col col-12">
+      { <ProductListing 
+        products={users}
+        // handleAddToCart={handleAddToCart}
+      /> }
+      </div>
       <Cart
         className="col col-4"
         cartItems={cartItems}

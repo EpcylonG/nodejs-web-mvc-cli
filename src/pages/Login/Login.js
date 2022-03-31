@@ -106,7 +106,7 @@ function Login() {
             <div className="text-center">
               <p>Not a member? <Link to="/sign-up" style={{ textDecoration: 'none' }}>Resgister</Link></p>
               <p>or sign up with:</p>
-              <Button onClick={handleLoginWithGoogleClick}>
+              <Button onClick={handleLoginWithGoogleClick} variant="danger">
                   Google
                 </Button>
             </div>
